@@ -1,14 +1,18 @@
+from Virus import Virus
 import random
-# TODO: Import the virus clase
+
 
 class Person(object):
+    _id = int
+    is_alive = bool
+    infection = None
+
     '''
     Person objects will populate the simulation.
 
     _____Attributes______:
 
     _id: Int.  A unique ID assigned to each person.
-
     is_vaccinated: Bool.  Determines whether the person object is vaccinated against
         the disease in the simulation.
 
@@ -44,14 +48,30 @@ class Person(object):
     def __init__(self, _id, is_vaccinated, infected=None):
         # TODO:  Finish this method.  Follow the instructions in the class documentation
         # to set the corret values for the following attributes.
-        self._id = None
-        self.is_vaccinated = None
-        self.is_alive = None
-        self.infected = None
+        self._id = _id
+        self.is_vaccinated = is_vaccinated
+        self.is_alive = True
+        self.infection = infected
 
 
-    def did_survive_infection():
+    def did_survive_infection(self):
         # TODO:  Finish this method. Follow the instructions in the class documentation
         # for resolve_infection.  If person dies, set is_alive to False and return False.
-        # If person lives, set is_vaccinated = True, infected = None, return True.  
-        pass
+        # If person lives, set is_vaccinated = True, infected = None, return True.
+        if self.infection != None:
+            deadOrNah = random.random()
+            if deadOrNah <= self.infection.mortality_rate:
+                self.is_alive = False
+                return False
+            else:
+                self.is_vaccinated = True
+                self.infection = None
+                return True
+
+def test_person():
+    v = Virus("HIV", 0.8,0.3)
+    p = Person(1,False,None)
+    p.did_survive_infection()
+    #print(p.is_alive)
+    #print(p.is_vaccinated)
+test_person()
